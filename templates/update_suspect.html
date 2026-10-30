@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head><meta charset="UTF-8"><title>Обновить подозреваемого</title></head>
+<body>
+    <h1>Обновление подозреваемого</h1>
+    <form action="/update_suspect/{{ suspect.id }}" method="POST">
+        <label>Имя:</label><br><input type="text" name="name" value="{{ suspect.name }}" required><br><br>
+        <label>Возраст:</label><br><input type="number" name="age" value="{{ suspect.age }}" required><br><br>
+        <label>Приметы:</label><br><textarea name="features">{{ suspect.features }}</textarea><br><br>
+        <button type="submit">Обновить</button>
+    </form>
+</body>
+</html>

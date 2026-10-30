@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактировать сотрудника</title>
+</head>
+<body>
+    <h1>Редактирование сотрудника</h1>
+    <a href="/officers">Назад к списку</a>
+    <br><br>
+
+    <form action="/update_officer/{{ officer.id }}" method="POST">
+        <label>Имя сотрудника:</label><br>
+        <input type="text" name="name" value="{{ officer.name }}" required><br><br>
+        
+        <label>Звание:</label><br>
+        <input type="text" name="rank" value="{{ officer.rank }}" required><br><br>
+        
+        <label>Номер жетона (уникальный):</label><br>
+        <input type="text" name="badge_number" value="{{ officer.badge_number }}" required><br><br>
+        
+        <button type="submit">Обновить данные</button>
+    </form>
+</body>
+</html>

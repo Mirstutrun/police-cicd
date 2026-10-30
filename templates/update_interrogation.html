@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head><meta charset="UTF-8"><title>Редактировать допрос</title></head>
+<body>
+    <h1>Обновление допроса</h1>
+    <form action="/update_interrogation/{{ interrogation.id }}" method="POST">
+        <label>Дата:</label><br><input type="date" name="date" value="{{ interrogation.date }}" required><br><br>
+        <label>Записи допроса:</label><br><textarea name="notes">{{ interrogation.notes }}</textarea><br><br>
+        <label>Подозреваемый:</label><br>
+        <select name="suspect_id">
+            {% for suspect in suspects %}<option value="{{ suspect.id }}" {% if interrogation.suspect_id == suspect.id %}selected{% endif %}>{{ suspect.name }}</option>{% endfor %}
+        </select><br><br>
+        <label>Дело:</label><br>
+        <select name="case_id">
+            {% for case in cases %}<option value="{{ case.id }}" {% if interrogation.case_id == case.id %}selected{% endif %}>{{ case.title }}</option>{% endfor %}
+        </select><br><br>
+        <button type="submit">Обновить</button>
+    </form>
+</body>
+</html>

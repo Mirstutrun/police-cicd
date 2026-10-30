@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Список сотрудников</title>
+</head>
+<body>
+    <h1>Сотрудники участка</h1>
+    <a href="/">На главную</a> | <a href="/add_officer">Добавить сотрудника</a>
+    <br><br>
+    
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Имя</th>
+            <th>Звание</th>
+            <th>Номер жетона</th>
+            <th>Действия</th>
+        </tr>
+        <!-- Цикл Jinja2 для вывода всех сотрудников из базы -->
+        {% for officer in officers %}
+        <tr>
+            <td>{{ officer.id }}</td>
+            <td>{{ officer.name }}</td>
+            <td>{{ officer.rank }}</td>
+            <td>{{ officer.badge_number }}</td>
+            <td>
+                <a href="/update_officer/{{ officer.id }}">Редактировать</a> |
+                <a href="/delete_officer/{{ officer.id }}" onclick="return confirm('Уверены, что хотите удалить?');">Удалить</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

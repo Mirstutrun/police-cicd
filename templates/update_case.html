@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head><meta charset="UTF-8"><title>Обновить дело</title></head>
+<body>
+    <h1>Обновление дела</h1>
+    <form action="/update_case/{{ case.id }}" method="POST">
+        <label>Название дела:</label><br><input type="text" name="title" value="{{ case.title }}" required><br><br>
+        <label>Статус:</label><br><input type="text" name="status" value="{{ case.status }}" required><br><br>
+        <label>Ответственный офицер:</label><br>
+        <select name="officer_id">
+            {% for officer in officers %}
+            <option value="{{ officer.id }}" {% if case.officer_id == officer.id %}selected{% endif %}>{{ officer.name }}</option>
+            {% endfor %}
+        </select><br><br>
+        <button type="submit">Обновить</button>
+    </form>
+</body>
+</html>

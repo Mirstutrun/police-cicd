@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head><meta charset="UTF-8"><title>Список дел</title></head>
+<body>
+    <h1>Дела в производстве</h1>
+    <a href="/">На главную</a> | <a href="/add_case">Добавить дело</a><br><br>
+    <table border="1">
+        <tr><th>ID</th><th>Название</th><th>Статус</th><th>ID Офицера</th><th>Действия</th></tr>
+        {% for case in cases %}
+        <tr>
+            <td>{{ case.id }}</td><td>{{ case.title }}</td><td>{{ case.status }}</td><td>{{ case.officer_id }}</td>
+            <td><a href="/update_case/{{ case.id }}">Редактировать</a> | <a href="/delete_case/{{ case.id }}">Удалить</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

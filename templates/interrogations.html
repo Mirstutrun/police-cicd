@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head><meta charset="UTF-8"><title>Допросы</title></head>
+<body>
+    <h1>Журнал допросов</h1>
+    <a href="/">На главную</a> | <a href="/add_interrogation">Добавить допрос</a><br><br>
+    <table border="1">
+        <tr><th>ID</th><th>Дата</th><th>Записи</th><th>Подозреваемый</th><th>Дело</th><th>Действия</th></tr>
+        {% for interrogation in interrogations %}
+        <tr>
+            <td>{{ interrogation.id }}</td><td>{{ interrogation.date }}</td><td>{{ interrogation.notes }}</td>
+            <td>{{ interrogation.suspect_id }}</td><td>{{ interrogation.case_id }}</td>
+            <td><a href="/update_interrogation/{{ interrogation.id }}">Ред.</a> | <a href="/delete_interrogation/{{ interrogation.id }}">Удалить</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

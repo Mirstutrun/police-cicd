@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head><meta charset="UTF-8"><title>Улики</title></head>
+<body>
+    <h1>Склад улик</h1>
+    <a href="/">На главную</a> | <a href="/add_evidence">Добавить улику</a><br><br>
+    <table border="1">
+        <tr><th>ID</th><th>Название</th><th>Описание</th><th>ID Дела</th><th>Действия</th></tr>
+        {% for evidence in evidences %}
+        <tr>
+            <td>{{ evidence.id }}</td><td>{{ evidence.item_name }}</td><td>{{ evidence.description }}</td><td>{{ evidence.case_id }}</td>
+            <td><a href="/update_evidence/{{ evidence.id }}">Редактировать</a> | <a href="/delete_evidence/{{ evidence.id }}">Удалить</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

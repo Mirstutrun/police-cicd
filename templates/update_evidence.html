@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head><meta charset="UTF-8"><title>Обновить улику</title></head>
+<body>
+    <h1>Обновление улики</h1>
+    <form action="/update_evidence/{{ evidence.id }}" method="POST">
+        <label>Название:</label><br><input type="text" name="item_name" value="{{ evidence.item_name }}" required><br><br>
+        <label>Описание:</label><br><textarea name="description">{{ evidence.description }}</textarea><br><br>
+        <label>Дело:</label><br>
+        <select name="case_id">
+            {% for case in cases %}
+            <option value="{{ case.id }}" {% if evidence.case_id == case.id %}selected{% endif %}>{{ case.title }}</option>
+            {% endfor %}
+        </select><br><br>
+        <button type="submit">Обновить</button>
+    </form>
+</body>
+</html>

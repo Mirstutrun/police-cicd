@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head><meta charset="UTF-8"><title>Новый допрос</title></head>
+<body>
+    <h1>Запись нового допроса</h1>
+    <form action="/add_interrogation" method="POST">
+        <label>Дата:</label><br><input type="date" name="date" required><br><br>
+        <label>Записи допроса:</label><br><textarea name="notes"></textarea><br><br>
+        <label>Подозреваемый:</label><br>
+        <select name="suspect_id">{% for suspect in suspects %}<option value="{{ suspect.id }}">{{ suspect.name }}</option>{% endfor %}</select><br><br>
+        <label>Дело:</label><br>
+        <select name="case_id">{% for case in cases %}<option value="{{ case.id }}">{{ case.title }}</option>{% endfor %}</select><br><br>
+        <button type="submit">Добавить</button>
+    </form>
+</body>
+</html>

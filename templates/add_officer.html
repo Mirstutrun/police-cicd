@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить сотрудника</title>
+</head>
+<body>
+    <h1>Добавление нового сотрудника</h1>
+    <a href="/officers">Назад к списку</a>
+    <br><br>
+
+    <!-- Форма отправляет POST-запрос на маршрут /add_officer -->
+    <form action="/add_officer" method="POST">
+        <label>Имя сотрудника:</label><br>
+        <input type="text" name="name" required><br><br>
+        
+        <label>Звание:</label><br>
+        <input type="text" name="rank" required><br><br>
+        
+        <label>Номер жетона (уникальный):</label><br>
+        <input type="text" name="badge_number" required><br><br>
+        
+        <button type="submit">Добавить в базу</button>
+    </form>
+</body>
+</html>
