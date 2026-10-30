@@ -8,7 +8,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
-# ================= МОДЕЛИ БАЗЫ ДАННЫХ (5 таблиц) =================
+
 
 class Officer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -48,13 +48,13 @@ class Interrogation(db.Model):
 with app.app_context():
     db.create_all()
 
-# ================= ГЛАВНАЯ СТРАНИЦА =================
+
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
-# ================= 1. CRUD СОТРУДНИКОВ (Officers) =================
+
 @app.route('/officers')
 def officers():
     return render_template('officers.html', officers=Officer.query.all())
@@ -85,7 +85,7 @@ def delete_officer(id):
     db.session.commit()
     return redirect('/officers')
 
-# ================= 2. CRUD ДЕЛ (Cases) =================
+
 @app.route('/cases')
 def cases():
     return render_template('cases.html', cases=Case.query.all())
@@ -116,7 +116,7 @@ def delete_case(id):
     db.session.commit()
     return redirect('/cases')
 
-# ================= 3. CRUD ПОДОЗРЕВАЕМЫХ (Suspects) =================
+
 @app.route('/suspects')
 def suspects():
     return render_template('suspects.html', suspects=Suspect.query.all())
@@ -147,7 +147,7 @@ def delete_suspect(id):
     db.session.commit()
     return redirect('/suspects')
 
-# ================= 4. CRUD УЛИК (Evidence) =================
+
 @app.route('/evidence')
 def evidence():
     return render_template('evidence.html', evidences=Evidence.query.all())
@@ -178,7 +178,7 @@ def delete_evidence(id):
     db.session.commit()
     return redirect('/evidence')
 
-# ================= 5. CRUD ДОПРОСОВ (Interrogations) =================
+
 @app.route('/interrogations')
 def interrogations():
     return render_template('interrogations.html', interrogations=Interrogation.query.all())

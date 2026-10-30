@@ -24,11 +24,11 @@ for ($i = 0; $i -lt 10; $i++) {
 
 
 New-Item -ItemType Directory -Force -Path $DeployDir -ErrorAction Stop | Out-Null
-# /MIR = mirror folder, /XD = skip these folders (they are not deleted in DeployDir)
+
 robocopy $Source $DeployDir /MIR /XD .git venv instance logs __pycache__ .pytest_cache /XF *.pyc /NFL /NDL /NJH /NJS /NP
 if ($LASTEXITCODE -ge 8) { throw "robocopy failed, exit code $LASTEXITCODE" }
 
-# ---------- 3. Requirements ----------
+
 $venvPython = Join-Path $DeployDir 'venv\Scripts\python.exe'
 if (-not (Test-Path $venvPython)) {
     & $Python -m venv (Join-Path $DeployDir 'venv')
@@ -40,7 +40,7 @@ if ($LASTEXITCODE -ne 0) { throw "pip install failed" }
 
 $logDir = Join-Path $DeployDir 'logs'
 New-Item -ItemType Directory -Force -Path $logDir -ErrorAction Stop | Out-Null
-# Jenkins kills all processes started by a build when it ends, this mark protects the app
+
 $env:JENKINS_NODE_COOKIE = 'dontKillMe'
 $env:BUILD_ID = 'dontKillMe'
 $cmdLine = "venv\Scripts\python.exe -m waitress --host=127.0.0.1 --port=$Port app:app > logs\app.log 2>&1"
