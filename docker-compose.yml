@@ -1,7 +1,7 @@
 name: police
 
 services:
-  # База данных PostgreSQL
+ 
   db:
     image: postgres:16-alpine
     environment:
@@ -18,10 +18,10 @@ services:
     restart: unless-stopped
     networks: [backend]
 
-  # Flask-приложение
+
   app:
     build: .
-    image: police-app:latest
+    image: ${APP_IMAGE:-police-app}:latest
     environment:
       DATABASE_URL: postgresql+psycopg://police:police@db:5432/police
     depends_on:
@@ -35,7 +35,7 @@ services:
     restart: unless-stopped
     networks: [backend, frontend]
 
-  # Веб-сервер nginx, единственный сервис с открытым наружу портом
+
   nginx:
     build: ./nginx
     image: police-nginx:latest
