@@ -21,7 +21,7 @@ services:
 
   app:
     build: .
-    image: police-app:latest
+    image: ${APP_IMAGE:-police-app}:latest
     environment:
       DATABASE_URL: postgresql+psycopg://police:police@db:5432/police
     depends_on:
