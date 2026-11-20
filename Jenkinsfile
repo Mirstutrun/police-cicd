@@ -39,12 +39,12 @@ pipeline {
         stage('Push') {
             when { expression { isMaster() } }
             steps {
-                // логин и токен Docker Hub хранятся в Jenkins (Credentials, ID dockerhub)
+                
                 withCredentials([usernamePassword(credentialsId: 'dockerhub',
                                  usernameVariable: 'DH_USER', passwordVariable: 'DH_TOKEN')]) {
                     bat 'echo %DH_TOKEN%| docker login -u %DH_USER% --password-stdin'
                 }
-                // версия с номером сборки (для истории и отката) и latest (текущая)
+               
                 bat 'docker tag %APP_IMAGE%:%TAG% %APP_IMAGE%:%BUILD_NUMBER%'
                 bat 'docker tag %APP_IMAGE%:%TAG% %APP_IMAGE%:latest'
                 bat 'docker push %APP_IMAGE%:%BUILD_NUMBER%'
@@ -54,7 +54,7 @@ pipeline {
         stage('Deploy') {
             when { expression { isMaster() } }
             steps {
-                // nginx собирается из своего Dockerfile, приложение берется из образа, отправленного в реестр
+             
                 bat 'docker compose build nginx'
                 bat 'docker compose up -d --wait'
                 bat 'docker compose ps'
@@ -71,7 +71,7 @@ pipeline {
     }
     post {
         always {
-            // убрать временные теги этой сборки и выйти из реестра
+           
             bat script: 'docker rmi %APP_IMAGE%:%TAG%', returnStatus: true
             bat script: 'docker rmi %APP_IMAGE%:%BUILD_NUMBER%', returnStatus: true
             bat script: 'docker logout', returnStatus: true
