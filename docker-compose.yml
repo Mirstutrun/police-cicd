@@ -1,0 +1,55 @@
+name: police
+
+services:
+  # База данных PostgreSQL
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: police
+      POSTGRES_USER: police
+      POSTGRES_PASSWORD: police
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U police -d police"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+    networks: [backend]
+
+  # Flask-приложение
+  app:
+    build: .
+    image: police-app:latest
+    environment:
+      DATABASE_URL: postgresql+psycopg://police:police@db:5432/police
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5000/')"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+    networks: [backend, frontend]
+
+  # Веб-сервер nginx, единственный сервис с открытым наружу портом
+  nginx:
+    build: ./nginx
+    image: police-nginx:latest
+    ports:
+      - "80:80"
+    depends_on:
+      app:
+        condition: service_healthy
+    restart: unless-stopped
+    networks: [frontend]
+
+volumes:
+  pgdata:
+
+networks:
+  frontend:
+  backend:
