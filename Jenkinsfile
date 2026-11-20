@@ -1,5 +1,4 @@
-// Какая ветка сейчас собирается: у Pipeline-job'а из Git она лежит
-// в GIT_BRANCH ("origin/master"), у Multibranch-job'а - в BRANCH_NAME ("master")
+
 def currentBranch() {
     return env.BRANCH_NAME ?: env.GIT_BRANCH ?: ''
 }
@@ -12,15 +11,15 @@ def isMaster() {
 pipeline {
     agent any
     options {
-        // не запускать две сборки одновременно
+       
         disableConcurrentBuilds()
     }
     environment {
-        // логин на Docker Hub (только строчные буквы)
-        REGISTRY_USER = 'mirstutrun'
-        // имя образа в реестре: <логин>/police-app
+     
+        REGISTRY_USER = 'mirroness'
+        
         APP_IMAGE = "${REGISTRY_USER}/police-app"
-        // временный тег этой сборки, например police-ci-7
+    
         TAG = "${env.JOB_NAME}-${env.BUILD_NUMBER}"
     }
     stages {
@@ -32,11 +31,11 @@ pipeline {
         }
         stage('Test') {
             steps {
-                // тесты запускаются внутри только что собранного образа
+                
                 bat 'docker run --rm %APP_IMAGE%:%TAG% python -m pytest -v'
             }
         }
-        // в реестр попадает только протестированный образ из master
+     
         stage('Push') {
             when { expression { isMaster() } }
             steps {
