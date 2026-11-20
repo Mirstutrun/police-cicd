@@ -15,9 +15,11 @@ pipeline {
         // не запускать две сборки одновременно
         disableConcurrentBuilds()
     }
-    environment {
+        environment {
         // Jenkins работает как служба Windows и обращается к Docker Desktop по TCP
         DOCKER_HOST = 'tcp://localhost:2375'
+        // служба Jenkins может не видеть PATH пользователя, поэтому путь к docker.exe задан явно
+        PATH+DOCKER = 'C:\\Program Files\\Docker\\Docker\\resources\\bin'
         // у каждой сборки свой тег образа, например police-app:police-ci-7
         IMAGE_TAG   = "police-app:${env.JOB_NAME}-${env.BUILD_NUMBER}"
     }
