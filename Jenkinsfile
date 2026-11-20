@@ -12,44 +12,6 @@ def isMaster() {
 pipeline {
     agent any
     options {
-       
-        disableConcurrentBuilds()
-    }
-            environment {
-        
-        IMAGE_TAG   = "police-app:${env.JOB_NAME}-${env.BUILD_NUMBER}"
-    }
-    stages {
-        stage('Build') {
-            steps {
-                echo "Branch: ${currentBranch()}"
-                bat 'docker build -t %IMAGE_TAG% .'
-            }
-        }
-        stage('Test') {
-            steps {
-                
-                bat 'docker run --rm %IMAGE_TAG% python -m pytest -v'
-            }
-        }
-        
-        stage('Deploy') {
-            when { expression { isMaster() } }
-            steps {
-               // Какая ветка сейчас собирается: у Pipeline-job'а из Git она лежит
-// в GIT_BRANCH ("origin/master"), у Multibranch-job'а - в BRANCH_NAME ("master")
-def currentBranch() {
-    return env.BRANCH_NAME ?: env.GIT_BRANCH ?: ''
-}
-
-def isMaster() {
-    def b = currentBranch()
-    return b == 'master' || b.endsWith('/master')
-}
-
-pipeline {
-    agent any
-    options {
         // не запускать две сборки одновременно
         disableConcurrentBuilds()
     }
@@ -114,26 +76,6 @@ pipeline {
             bat script: 'docker rmi %APP_IMAGE%:%TAG%', returnStatus: true
             bat script: 'docker rmi %APP_IMAGE%:%BUILD_NUMBER%', returnStatus: true
             bat script: 'docker logout', returnStatus: true
-        }
-    }
-}
-                bat 'docker compose up -d --build --wait'
-                bat 'docker compose ps'
-            }
-        }
-        stage('Smoke test') {
-            when { expression { isMaster() } }
-            steps {
-                
-                bat 'curl.exe -fsS --retry 5 --retry-delay 2 --retry-connrefused -o NUL http://localhost/'
-                echo 'App is running: http://localhost/'
-            }
-        }
-    }
-    post {
-        always {
-            
-            bat script: 'docker rmi %IMAGE_TAG%', returnStatus: true
         }
     }
 }
